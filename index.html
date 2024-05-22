@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+        <div class="phone-outer">
+            <div class="phone-inner">
+                <div class="app login">
+                    <div class="login-flex">
+                        <h1>Authentwokator</h1>
+                        <i>Codes cycle every <span id="num_seconds"></span> seconds</i>
+                        <progress value="0" max="100"></progress>
+                        <div>GEICO —> <span class="hide-pin">045278</span></div>
+                        <div>HCB —> <span class="hide-pin" id="code-span">xxx</span></div>
+                        <div>Gmail —> <span class="hide-pin">362748</span></div>
+                        <div>Slack —> <span class="hide-pin">993723</span></div>
+                    </div>
+                </div>
+                
+                <div class="home-outer">
+                    <div class="home-button"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="computer">
+            Log In To HCB
+            <input type="text" placeholder="enter 2FA code" id="code_input"/>
+            <button type="button">Log In (or hit enter)</button>
+        </div>
+    </section>
+
+    <script>
+        const code_span = document.getElementById('code-span');
+        const a_input = document.getElementById('code_input');
+        const num_seconds = document.getElementById('num_seconds');
+
+        let level = 1;
+
+        let tmp_time=0;
+        
+        let length =(5250-(level*250))/4
+        num_seconds.innerText = length/1000*4;
+        function random_code_no_spaces() {
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += Math.floor(Math.random() * 10);
+            }
+            return code;
+        }
+
+        let timer = setInterval(() => {
+            tmp_time += 1;
+            if (tmp_time > length) {
+                tmp_time = 1;
+                code = random_code_no_spaces();
+                code_span.innerText = code; 
+            }
+            document.querySelector('progress').value = tmp_time/length*100;
+        }, 0);
+
+        // Unfocus the text box when hovering over the HCB span
+        code_span.addEventListener('mouseover', () => {
+            a_input.blur();
+        });
+
+
+        // generate new code
+        let code = random_code_no_spaces();
+        code_span.innerText = code;
+
+        function check_code() {
+            // alert(a_input.value);
+            // alert(code);
+            if (a_input.value === code) {
+                alert('Correct code! Unfortunately we need another 2FA to make sure its really you.');
+                clearInterval(timer);
+                code = random_code_no_spaces();
+                code_span.innerText = code;
+                a_input.value = '';
+                level += 1;
+                tmp_time = 0;
+                // alert(level);
+                length = (5250-(level*250))/4;
+                num_seconds.innerText = length/1000*4;
+
+                document.getElementsByClassName("computer")[0].style.border = "10px solid black";
+
+                timer = setInterval(() => {
+                    tmp_time += 1;
+                    if (tmp_time > length) {
+                        tmp_time = 1;
+                        code = random_code_no_spaces();
+                        code_span.innerText = code;
+                    }
+                    document.querySelector('progress').value = tmp_time/length*100;
+                }, 0);
+            } else {
+                // alert('Incorrect code');
+                document.getElementsByClassName("computer")[0].style.border = "10px solid red";
+                a_input.value = '';
+            }
+        }
+
+        document.querySelector('button').addEventListener('click', check_code);
+        // check on enter key
+        a_input.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                check_code();
+            }
+        });
+
+
+
+    </script>
+
+
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+
+        .computer {
+            width: 600px;
+            height: 300px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            border: 10px solid #000;
+        }
+
+        input {
+            border: 3px solid grey;
+            border-radius: 10px;
+            font-size: larger;
+            padding: 20px;
+        }
+        
+        .phone-outer {
+            width: 300px;
+            height: 600px;
+            background-color: #000;
+            border-radius: 20px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 20px;
+        } 
+
+        .phone-inner {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 20px;
+            /* position: absolute; */
+            top: 0;
+            left: 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+
+            display: flex;
+            flex-direction: column;
+            /* align-items: flex-end; */
+            justify-content: space-between;
+        }
+
+        .app {
+            flex-grow: 1;
+        }
+
+        .login-flex {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .home-outer {
+            width: 100%;
+            /* height: 50px; */
+            display: flex;
+            padding-block: 10px;
+            justify-content: center;
+            background-color: #d0d0d0;
+        }
+
+        .home-button {
+            width: 50px;
+            height: 50px;
+            background-color: #000;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            font-size: larger;
+            padding: 10px;
+            transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+        }
+
+        button:hover {
+            border: none;
+            border-radius: 5px;
+            font-size: larger;
+            padding: 10px;
+            background-color: #d0d0d0;
+        }
+
+        .hide-pin {
+            background-color: #000000;
+            /* no select */
+            -webkit-touch-callout: none; 
+                -webkit-user-select: none; 
+                -khtml-user-select: none; 
+                -moz-user-select: none; 
+                    -ms-user-select: none; 
+                        user-select: none;
+
+                        padding: 10px;
+            
+            /* background-clip: border-box; */
+            /* transition: all linear 0.5s; */
+        }
+        .hide-pin:hover {
+            background-color: #ffffff00;
+            /* background-clip: text; */
+        }
+
+        body {
+            display: flex;
+            gap: 20px;
+        }
+    </style>
+</body>
+</html>
