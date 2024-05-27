@@ -11,11 +11,12 @@
             <div class="phone-inner">
                 <div class="app login">
                     <div class="login-flex">
-                        <h1>Authentwokator</h1>
-                        <i>Codes cycle every <span id="num_seconds"></span> seconds</i>
+                        <h1 style="text-align: center; margin-block: 0px;">Authentwokator™️ <br/>2FA App</h1>
+                        <i style="text-align: center; width: 75%;">Codes cycle every <span id="num_seconds"></span> seconds. Hover to reveal code</i>
                         <progress value="0" max="100"></progress>
                         <div>GEICO —> <span class="hide-pin">045278</span></div>
                         <div>HCB —> <span class="hide-pin" id="code-span">xxx</span></div>
+                        <!-- <div>HCB —> <span class="hide-pin">221344</span></div> -->
                         <div>Gmail —> <span class="hide-pin">362748</span></div>
                         <div>Slack —> <span class="hide-pin">993723</span></div>
                     </div>
@@ -29,7 +30,7 @@
     </section>
     <section>
         <div class="computer">
-            Log In To HCB
+            <div>Log In To <b><span id="app-name">HCB</span></b></div>
             <input type="text" placeholder="enter 2FA code" id="code_input" autocomplete="off" tabindex="-1"/>
             <button type="button">Log In (or hit enter)</button>
         </div>
@@ -54,15 +55,19 @@
             return code;
         }
 
-        let timer = setInterval(() => {
-            tmp_time += 1;
-            if (tmp_time > length) {
-                tmp_time = 1;
-                code = random_code_no_spaces();
-                code_span.innerText = code; 
-            }
-            document.querySelector('progress').value = tmp_time/length*100;
-        }, 0);
+        function interval_machine() {
+            return setInterval(() => {
+                    tmp_time += 1;
+                    if (tmp_time > length) {
+                        tmp_time = 1;
+                        code = random_code_no_spaces();
+                        code_span.innerText = code;
+                    }
+                    document.querySelector('progress').value = tmp_time/length*100;
+                }, 0);
+        }
+
+        let timer = interval_machine();
 
         // Unfocus the text box when hovering over the HCB span
         code_span.addEventListener('mouseover', () => {
@@ -91,15 +96,7 @@
 
                 document.getElementsByClassName("computer")[0].style.border = "10px solid black";
 
-                timer = setInterval(() => {
-                    tmp_time += 1;
-                    if (tmp_time > length) {
-                        tmp_time = 1;
-                        code = random_code_no_spaces();
-                        code_span.innerText = code;
-                    }
-                    document.querySelector('progress').value = tmp_time/length*100;
-                }, 0);
+                timer = interval_machine();
             } else {
                 // alert('Incorrect code');
                 document.getElementsByClassName("computer")[0].style.border = "10px solid red";
