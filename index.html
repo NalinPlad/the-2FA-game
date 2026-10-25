@@ -1,42 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2FFFA Game</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#142b4c">
+<title>Hello world</title>
+<style>
+:root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #203149; background: #142b4c; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: grid; align-items: center; background: radial-gradient(ellipse at 20% 45%, #264d78 0, transparent 60%), #142b4c; }
+button, input { font: inherit; }
+main { width: 100%; max-width: 1100px; margin: 0 auto; padding: 48px 40px; display: grid; grid-template-columns: 310px minmax(0, 500px); gap: 80px; justify-content: center; align-items: center; }
+.phone-stage { position: relative; width: calc(100% + 80px); margin: 0 -40px; display: grid; place-items: center; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.phone-stage:active { cursor: grabbing; }
+.phone-stage > canvas, .phone-stage > .css3d { position: absolute; inset: 0; }
+.phone-inner { width: 282px; background: #f5f7fb; border-radius: 35px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.spin-hint { text-align: center; color: #9fb3cc; font-size: 11px; margin: 4px 0 0; }
+.statusbar { height: 43px; padding: 13px 21px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; position: relative; }
+.island { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 81px; height: 23px; border-radius: 20px; background: #101a26; }
+.app { padding: 15px 16px 8px; }
+.app-title { display: flex; align-items: center; justify-content: space-between; font-size: 21px; letter-spacing: -.7px; margin: 0; }
+.app-title > span { color: #4978b8; font-size: 24px; }
+.app-subtitle { font-size: 10px; margin: 7px 0 19px; color: #7f8b9d; }
+.accounts-label { display: flex; justify-content: space-between; color: #7b8797; font-size: 9px; font-weight: 650; letter-spacing: 1px; margin: 0 2px 9px; }
+.accounts-label span { letter-spacing: 0; color: #44836d; }
+.account { background: white; border: 1px solid #e5eaf2; border-radius: 12px; padding: 12px; margin-bottom: 9px; }
+.account-top { display: flex; gap: 9px; align-items: center; }
+.service-icon { width: 29px; height: 29px; display: grid; place-items: center; background: #eaf2fd; color: #3070ce; font-size: 12px; font-weight: 750; border-radius: 8px; }
+.geico { color: #267850; background: #e8f4ed; font-size: 8px; }
+.gmail { color: #ce564a; background: #fff0eb; }
+.slack { color: #855291; background: #f3ebf6; font-size: 18px; }
+.account strong { display: block; font-size: 11px; font-weight: 650; }
+.account small { display: block; margin-top: 2px; font-size: 9px; color: #78869a; }
+.code-line { margin: 9px 0 0 38px; display: flex; justify-content: space-between; align-items: center; }
+.hide-pin { display: inline-block; color: transparent; text-shadow: 0 0 8px #3373c0; font-size: 23px; font-weight: 600; letter-spacing: 4px; font-variant-numeric: tabular-nums; user-select: none; -webkit-user-select: none; cursor: crosshair; border-radius: 3px; transition: color .15s, text-shadow .15s; touch-action: manipulation; }
+.hide-pin:hover, .hide-pin:focus, .hide-pin:active { color: #2c6dca; text-shadow: none; outline: 2px solid transparent; }
+.code-ring { width: 15px; height: 15px; border: 2px solid #dce7f8; border-top-color: #3e7ed5; border-right-color: #3e7ed5; border-radius: 50%; }
+.cycle-label { display: flex; justify-content: space-between; color: #78869a; font-size: 9px; padding: 6px 3px 0; }
+progress { display: block; width: 100%; height: 3px; border: 0; border-radius: 5px; overflow: hidden; margin-top: 8px; appearance: none; background: #e0e7f1; }
+progress::-webkit-progress-bar { background: #e0e7f1; }
+progress::-webkit-progress-value { background: #5288d4; }
+progress::-moz-progress-bar { background: #5288d4; }
+.phone-hint { text-align: center; color: #78869a; font-size: 9px; margin: 13px 0 3px; }
+.home-outer { height: 22px; display: grid; align-items: end; justify-content: center; padding-bottom: 7px; }
+.home-button { height: 4px; width: 90px; border-radius: 5px; background: #1c293b; }
+.browser { background: white; border: 1px solid #5b7291; border-radius: 15px; overflow: hidden; box-shadow: 0 25px 65px #07142640; }
+.browser-bar { background: #f0f3f8; border-bottom: 1px solid #e3e8f0; display: flex; align-items: center; gap: 17px; padding: 12px 15px; }
+.traffic { display: flex; gap: 5px; }
+.traffic i { width: 7px; height: 7px; background: #ffb4aa; border-radius: 50%; }
+.traffic i:nth-child(2) { background: #f4d18b; }
+.traffic i:nth-child(3) { background: #a5d2b4; }
+.address { background: #e6ebf2; border-radius: 5px; text-align: center; color: #69798e; font-size: 9px; padding: 5px; flex: 1; margin-right: 35px; }
+.computer { padding: 36px 42px 23px; text-align: center; }
+.lock-icon { width: 50px; height: 50px; display: grid; place-items: center; background: #edf4ff; color: #3875ca; border: 1px solid #e0ebfb; border-radius: 14px; margin: 0 auto 20px; }
+.lock-icon svg { width: 25px; height: 25px; }
+.step { color: #78869a; letter-spacing: 1.6px; font-size: 9px; font-weight: 650; }
+.computer h2 { font-size: 25px; letter-spacing: -.8px; margin: 10px 0; font-weight: 650; }
+.description { color: #78869a; font-size: 12px; line-height: 1.8; margin: 0 auto 25px; }
+.description b { color: #485a73; font-weight: 600; }
+label { display: block; font-size: 11px; font-weight: 600; text-align: left; margin-bottom: 8px; color: #53637a; }
+input { display: block; width: 100%; min-width: 0; height: 56px; border: 1px solid #d7e1ef; background: #fafcff; border-radius: 8px; font-size: 25px; letter-spacing: 12px; text-align: center; padding: 8px 0 8px 12px; color: #293d59; font-variant-numeric: tabular-nums; outline: none; }
+input::placeholder { color: #bcc9d9; opacity: 1; }
+input:focus-visible { border-color: #5188d2; box-shadow: 0 0 0 3px #e8f0fc; }
+input[aria-invalid=true] { border-color: #d86565; }
+button { width: 100%; padding: 13px; display: flex; justify-content: center; align-items: center; gap: 12px; border: 1px solid #2964bc; border-radius: 8px; background: #3676cf; color: white; font-size: 12px; font-weight: 600; box-shadow: 0 2px 3px #2860ac22; cursor: pointer; transition: background .2s; }
+button:hover { background: #2865bd; }
+button:focus-visible { outline: 3px solid #92b9ef; outline-offset: 3px; }
+button span { font-size: 17px; }
+.feedback { min-height: 38px; padding: 9px 0; font-size: 10px; line-height: 1.5; color: #78869a; }
+.feedback.error { color: #be4c4c; }
+.feedback.success { color: #328063; }
+.security-note { padding-top: 22px; font-size: 9px; color: #78869a; }
+.browser-footer { border-top: 1px solid #eef1f6; margin-top: 22px; padding-top: 16px; display: flex; justify-content: space-between; font-size: 9px; color: #78869a; }
+@media (max-width: 780px) {
+    main { padding: 32px 20px; grid-template-columns: 1fr; gap: 28px; }
+    .phone-stage { width: 100%; margin: 0; }
+    .browser-section { width: 100%; max-width: 500px; margin: auto; }
+    .computer { padding: 30px 24px 22px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
 </head>
 <body>
-    <section>
-        <div class="phone-outer">
-            <div class="phone-inner">
-                <div class="app login">
-                    <div class="login-flex">
-                        <h1 style="text-align: center; margin-block: 0px;">Authentwokator™️ <br/>2FA App</h1>
-                        <i style="text-align: center; width: 75%;">Codes cycle every <span id="num_seconds"></span> seconds. Hover to reveal code</i>
-                        <progress value="0" max="100"></progress>
-                        <div>GEICO —> <span class="hide-pin">045278</span></div>
-                        <div>HCB —> <span class="hide-pin" id="code-span">xxx</span></div>
-                        <!-- <div>HCB —> <span class="hide-pin">221344</span></div> -->
-                        <div>Gmail —> <span class="hide-pin">362748</span></div>
-                        <div>Slack —> <span class="hide-pin">993723</span></div>
-                    </div>
-                </div>
-                
-                <div class="home-outer">
-                    <div class="home-button"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section>
-        <div class="computer">
-            <div>Log In To <b><span id="app-name">HCB</span></b></div>
-            <input type="text" placeholder="enter 2FA code" id="code_input" autocomplete="off" tabindex="-1"/>
-            <button type="button">Log In (or hit enter)</button>
-        </div>
-    </section>
-
-    <script>
+<main>
+<section aria-label="Authenticator phone">
+<div class="phone-stage" id="phone-stage"><div class="phone-inner">
+<div class="statusbar"><span>9:41</span><span class="island"></span><span aria-hidden="true">▴ ▰ ▬</span></div>
+<div class="app login"><div class="login-flex">
+<h2 class="app-title">Authenticator <span aria-hidden="true">◈</span></h2>
+<p class="app-subtitle">A little peace of mind. Six digits at a time.</p>
+<div class="accounts-label">YOUR ACCOUNTS <span>● &nbsp; Synced</span></div>
+<div class="account"><div class="account-top"><span class="service-icon geico">GEICO</span><div><strong>GEICO</strong><small>Personal account</small></div></div><div class="code-line"><span class="hide-pin" tabindex="0" aria-label="GEICO code">045278</span><span class="code-ring" aria-hidden="true"></span></div></div>
+<div class="account"><div class="account-top"><span class="service-icon ">H</span><div><strong>HCB</strong><small>Personal account</small></div></div><div class="code-line"><span class="hide-pin" id="code-span" tabindex="0" aria-label="HCB code">000000</span><span class="code-ring" aria-hidden="true"></span></div></div>
+<div class="account"><div class="account-top"><span class="service-icon gmail">M</span><div><strong>Gmail</strong><small>Personal account</small></div></div><div class="code-line"><span class="hide-pin" tabindex="0" aria-label="Gmail code">362748</span><span class="code-ring" aria-hidden="true"></span></div></div>
+<div class="account"><div class="account-top"><span class="service-icon slack">#</span><div><strong>Slack</strong><small>Workspace account</small></div></div><div class="code-line"><span class="hide-pin" tabindex="0" aria-label="Slack code">993723</span><span class="code-ring" aria-hidden="true"></span></div></div>
+<div class="cycle-label"><span>Code refresh interval</span><span><span id="num_seconds"></span>s</span></div>
+<progress value="0" max="100" aria-label="Time until code refresh"></progress>
+<p class="phone-hint">Hover, hold, or focus a code to reveal it</p>
+</div></div><div class="home-outer"><div class="home-button"></div></div>
+</div></div>
+<p class="spin-hint">Drag the phone to spin it</p></section>
+<section class="browser-section" aria-label="Account verification">
+<div class="browser"><div class="browser-bar"><span class="traffic" aria-hidden="true"><i></i><i></i><i></i></span><span class="address">▣ &nbsp; accounts.example / verify</span></div>
+<div class="computer">
+<div class="lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg></div>
+<div class="step">IDENTITY VERIFICATION · ROUND <span id="round">01</span></div>
+<h2>A little extra security.</h2>
+<p class="description">Enter the 6-digit code from your authenticator<br>to continue to <b><span id="app-name">HCB</span></b>.</p>
+<form id="verification-form" novalidate><label for="code_input">Authentication code</label>
+<input type="text" placeholder="000000" id="code_input" autocomplete="off" inputmode="numeric" maxlength="6" spellcheck="false" aria-describedby="feedback" aria-invalid="false">
+<div id="feedback" class="feedback" role="status" aria-live="polite">Codes expire quickly. You’ve got this.</div>
+<button type="submit">Verify &amp; continue <span aria-hidden="true">→</span></button></form>
+<div class="security-note">◇ &nbsp; Protected by an unreasonable amount of security</div>
+<div class="browser-footer"><span>End-to-end overthinking</span><span>256-bit peace of mind</span></div>
+</div></div>
+</section>
+</main>
+<script>
         const code_span = document.getElementById('code-span');
         const a_input = document.getElementById('code_input');
         const num_seconds = document.getElementById('num_seconds');
@@ -83,7 +163,8 @@
             // alert(a_input.value);
             // alert(code);
             if (a_input.value === code) {
-                alert('Correct code! Unfortunately we need another 2FA to make sure its really you.');
+                feedback.textContent = 'Verified! Just one more code to be absolutely sure.';
+                feedback.className = 'feedback success';
                 clearInterval(timer);
                 code = random_code_no_spaces();
                 code_span.innerText = code;
@@ -91,161 +172,149 @@
                 level += 1;
                 tmp_time = 0;
                 // alert(level);
-                length = (5250-(level*250))/4;
+                length = Math.max(200, (5250-(level*250))/4);
                 num_seconds.innerText = length/1000*4;
 
-                document.getElementsByClassName("computer")[0].style.border = "10px solid black";
+                document.getElementById('round').textContent = String(level).padStart(2, '0');
+                a_input.setAttribute('aria-invalid', 'false');
+                document.querySelector('progress').value = 0;
 
                 timer = interval_machine();
             } else {
                 // alert('Incorrect code');
-                document.getElementsByClassName("computer")[0].style.border = "10px solid red";
+                feedback.textContent = 'That code didn’t match. Check your authenticator and try again.';
+                feedback.className = 'feedback error';
+                a_input.setAttribute('aria-invalid', 'true');
                 a_input.value = '';
             }
         }
 
-        document.querySelector('button').addEventListener('click', check_code);
-        // check on enter key
-        a_input.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                check_code();
-            }
+
+        const feedback = document.getElementById('feedback');
+        document.getElementById('verification-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            check_code();
         });
+        a_input.addEventListener('input', () => {
+            a_input.value = a_input.value.replace(/\D/g, '').slice(0, 6);
+            a_input.setAttribute('aria-invalid', 'false');
+        });
+        code_span.addEventListener('pointerdown', () => a_input.blur());
+</script>
+<script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/+esm';
+        import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js/+esm';
+        import { CSS3DRenderer, CSS3DObject } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/renderers/CSS3DRenderer.js/+esm';
 
+        const stage = document.getElementById('phone-stage');
+        const screen = stage.querySelector('.phone-inner');
 
+        // Phone body is sized around the real screen element, in CSS pixels
+        const bezel = 7, depth = 10, bevel = 2, corner = 43;
+        const body_w = screen.offsetWidth + bezel * 2;
+        const body_h = screen.offsetHeight + bezel * 2;
+        const front_z = depth / 2 + bevel;
+        stage.style.height = (body_h + 80) + 'px';
 
-    </script>
-
-
-    <style>
-        html {
-            font-family: sans-serif;
+        function rounded_rect(w, h, r) {
+            const x = -w / 2, y = -h / 2;
+            const shape = new THREE.Shape();
+            shape.moveTo(x + r, y);
+            shape.lineTo(x + w - r, y);
+            shape.quadraticCurveTo(x + w, y, x + w, y + r);
+            shape.lineTo(x + w, y + h - r);
+            shape.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            shape.lineTo(x + r, y + h);
+            shape.quadraticCurveTo(x, y + h, x, y + h - r);
+            shape.lineTo(x, y + r);
+            shape.quadraticCurveTo(x, y, x + r, y);
+            return shape;
         }
 
-        .computer {
-            width: 600px;
-            height: 300px;
-            background-color: #ffffff;
-            border-radius: 20px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            border: 10px solid #000;
+        const scene = new THREE.Scene();
+        const phone = new THREE.Group();
+        scene.add(phone);
+
+        const body_material = new THREE.MeshStandardMaterial({ color: 0x1b2635, metalness: 0.55, roughness: 0.35 });
+        const body_geometry = new THREE.ExtrudeGeometry(
+            rounded_rect(body_w - bevel * 2, body_h - bevel * 2, corner - bevel),
+            { depth, bevelEnabled: true, bevelSize: bevel, bevelThickness: bevel, bevelSegments: 4, curveSegments: 24 }
+        );
+        body_geometry.translate(0, 0, -depth / 2);
+        phone.add(new THREE.Mesh(body_geometry, body_material));
+
+        // Side buttons
+        const button_material = new THREE.MeshStandardMaterial({ color: 0x67778a, metalness: 0.7, roughness: 0.3 });
+        const add_button = (x, y, height) => {
+            const button = new THREE.Mesh(new THREE.BoxGeometry(3, height, 5), button_material);
+            button.position.set(x, y, 0);
+            phone.add(button);
+        };
+        add_button(-body_w / 2 - 1, body_h / 2 - 140, 49);
+        add_button(body_w / 2 + 1, body_h / 2 - 160, 70);
+
+        // Camera bump with two lenses on the back
+        const bump = new THREE.Mesh(
+            new THREE.ExtrudeGeometry(rounded_rect(80, 80, 20), { depth: 2, bevelEnabled: true, bevelSize: 1, bevelThickness: 1, curveSegments: 16 }),
+            body_material
+        );
+        bump.position.set(body_w / 2 - 56, body_h / 2 - 56, -front_z - 2);
+        phone.add(bump);
+        const lens_material = new THREE.MeshStandardMaterial({ color: 0x05080d, metalness: 0.9, roughness: 0.1 });
+        for (const [dx, dy] of [[-17, 17], [17, -17]]) {
+            const lens = new THREE.Mesh(new THREE.CylinderGeometry(13, 13, 3, 32), lens_material);
+            lens.rotation.x = Math.PI / 2;
+            lens.position.set(bump.position.x + dx, bump.position.y + dy, -front_z - 4);
+            phone.add(lens);
         }
 
-        input {
-            border: 3px solid grey;
-            border-radius: 10px;
-            font-size: larger;
-            padding: 20px;
+        // The live game screen sits on the front face as real DOM
+        const screen_object = new CSS3DObject(screen);
+        screen_object.position.z = front_z + 0.5;
+        phone.add(screen_object);
+
+        scene.add(new THREE.HemisphereLight(0xffffff, 0x1a2a40, 1.4));
+        const key_light = new THREE.DirectionalLight(0xffffff, 2.2);
+        key_light.position.set(200, 300, 400);
+        scene.add(key_light);
+        const back_light = new THREE.DirectionalLight(0x9fc0ff, 1.2);
+        back_light.position.set(-200, -100, -400);
+        scene.add(back_light);
+
+        const camera = new THREE.PerspectiveCamera(30, 1, 1, 5000);
+        const gl_renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        gl_renderer.setPixelRatio(window.devicePixelRatio);
+        const css_renderer = new CSS3DRenderer();
+        css_renderer.domElement.className = 'css3d';
+        stage.append(gl_renderer.domElement, css_renderer.domElement);
+
+        const controls = new OrbitControls(camera, stage);
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.rotateSpeed = 0.8;
+        controls.minPolarAngle = Math.PI / 2 - 0.9;
+        controls.maxPolarAngle = Math.PI / 2 + 0.9;
+
+        // Place the camera so the screen renders at its real pixel size when facing forward
+        function resize() {
+            const w = stage.clientWidth, h = stage.clientHeight;
+            camera.aspect = w / h;
+            const distance = (h / 2) / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+            if (camera.position.lengthSq() === 0) camera.position.set(0, 0, distance);
+            else camera.position.setLength(distance);
+            camera.updateProjectionMatrix();
+            gl_renderer.setSize(w, h);
+            css_renderer.setSize(w, h);
         }
-        
-        .phone-outer {
-            width: 300px;
-            height: 600px;
-            background-color: #000;
-            border-radius: 20px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
+        new ResizeObserver(resize).observe(stage);
+        resize();
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-bottom: 20px;
-        } 
-
-        .phone-inner {
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            border-radius: 20px;
-            /* position: absolute; */
-            top: 0;
-            left: 0;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-
-
-            display: flex;
-            flex-direction: column;
-            /* align-items: flex-end; */
-            justify-content: space-between;
-        }
-
-        .app {
-            flex-grow: 1;
-        }
-
-        .login-flex {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-        .home-outer {
-            width: 100%;
-            /* height: 50px; */
-            display: flex;
-            padding-block: 10px;
-            justify-content: center;
-            background-color: #d0d0d0;
-        }
-
-        .home-button {
-            width: 50px;
-            height: 50px;
-            background-color: #000;
-            border-radius: 50%;
-            margin: 0 auto;
-        }
-
-        button {
-            border: none;
-            border-radius: 10px;
-            font-size: larger;
-            padding: 10px;
-            transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
-        }
-
-        button:hover {
-            border: none;
-            border-radius: 5px;
-            font-size: larger;
-            padding: 10px;
-            background-color: #d0d0d0;
-        }
-
-        .hide-pin {
-            background-color: #000000;
-            /* no select */
-            -webkit-touch-callout: none; 
-                -webkit-user-select: none; 
-                -khtml-user-select: none; 
-                -moz-user-select: none; 
-                    -ms-user-select: none; 
-                        user-select: none;
-
-                        padding: 10px;
-            
-            /* background-clip: border-box; */
-            /* transition: all linear 0.5s; */
-        }
-        .hide-pin:hover {
-            background-color: #ffffff00;
-            /* background-clip: text; */
-        }
-
-        body {
-            display: flex;
-            gap: 20px;
-        }
-    </style>
+        gl_renderer.setAnimationLoop(() => {
+            controls.update();
+            gl_renderer.render(scene, camera);
+            css_renderer.render(scene, camera);
+        });
+</script>
 </body>
 </html>
