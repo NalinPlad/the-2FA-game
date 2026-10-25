@@ -34,9 +34,13 @@
             <input type="text" placeholder="enter 2FA code" id="code_input" autocomplete="off" tabindex="-1"/>
             <button type="button">Log In (or hit enter)</button>
         </div>
+        <figure class="obama-portrait">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg" alt="Barack Obama smiling in his official White House portrait" width="210" height="280" referrerpolicy="no-referrer">
+            <figcaption>Barack Obama<br><small><a href="https://commons.wikimedia.org/wiki/File:President_Barack_Obama.jpg" target="_blank" rel="noopener noreferrer">Photo: Pete Souza / White House</a></small></figcaption>
+        </figure>
     </section>
 
-    <script>
+    <script is:inline>
         const code_span = document.getElementById('code-span');
         const a_input = document.getElementById('code_input');
         const num_seconds = document.getElementById('num_seconds');
@@ -117,7 +121,7 @@
     </script>
 
 
-    <style>
+    <style is:global>
         html {
             font-family: sans-serif;
         }
@@ -242,7 +246,29 @@
             /* background-clip: text; */
         }
 
+        .obama-portrait {
+            width: 210px;
+            margin: 24px auto;
+            padding: 12px;
+            background-color: white;
+            border: 4px solid black;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .obama-portrait img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .obama-portrait figcaption {
+            margin-top: 10px;
+        }
+
         body {
+            background-color: green;
             display: flex;
             gap: 20px;
         }
